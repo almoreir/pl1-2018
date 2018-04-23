@@ -1,3 +1,7 @@
+
+//Team:(Abdulrahman Moreir && Anis Ben Ghanem)
+
+
 /**
 Homework 01
 ============
@@ -42,6 +46,7 @@ case class False() extends Exp // constant false
 case class And(lhs: Exp, rhs: Exp) extends Exp
 case class Or(lhs: Exp, rhs: Exp) extends Exp
 case class Not(e: Exp) extends Exp
+case class Impl(lhs: Exp, rhs: Exp) extends Exp
 
 /**
 Tasks:
@@ -56,13 +61,23 @@ Tasks:
 */
 
 def eval(e: Exp) : Boolean = e match {
-  case True()    => sys.error("not yet implemented")
-  case False()   => sys.error("not yet implemented")
-  case And(l, r) => sys.error("not yet implemented")
-  case Or(l, r)  => sys.error("not yet implemented")
-  case Not(e)    => sys.error("not yet implemented")
+  case True()    => true
+  case False()   => false
+  case And(l, r) => (eval(l)&&eval(r))
+  case Or(l, r)  => (eval(l)||eval(r))
+  case Not(e)    => !eval(e)
+  case Impl(l,r) => (!eval(l)||eval(r))
 }
 
 val exampleProposition = And(Not(True()), False()) // should evaluate to false
+eval (exampleProposition)
+val x1 = Impl(True(),False())
+eval(x1)
+val x2 = Or(False(),Impl(False(), And (True(),Or(True(),False()))))
+eval(x2)
+val x3 = Impl(Not(False()),Or(True(),And(True(),False())))
+eval(x3)
+val x4 = Or(True(),And(Not(False()),Or(True(),False())))
+eval(x4)
 
 }
